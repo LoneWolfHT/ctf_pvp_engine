@@ -178,8 +178,15 @@ ctf_flag = {
 	end,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
+		local flag = ctf_flag.get(pos)
 		meta:set_string("infotext", "Unowned flag")
 		minetest.get_node_timer(pos):start(5)
+
+		if not flag then
+			return
+		end
+
+		flag.claimed = nil
 	end,
 	after_place_node = function(pos, placer)
 		local name = placer:get_player_name()
